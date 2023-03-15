@@ -1,4 +1,4 @@
-<h1>Building a Report with Data Insights</h1>
+<h1>Interacting with Cloudbeds Report Builder</h1>
 
 
 - [**Intro to Data Insights**](#intro-to-data-insights)

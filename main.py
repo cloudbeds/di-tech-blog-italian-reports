@@ -135,7 +135,7 @@ if __name__ == "__main__":
 
     # Query parameters for the "query data" request
     query_params = dict(
-        mode="Run",  # Other option is "Preview", which limits the result to 10,000 records
+        mode="Run",  # Other option is "Preview", which limits the result to 100 records
     )
 
     # Query the Guest Information report
