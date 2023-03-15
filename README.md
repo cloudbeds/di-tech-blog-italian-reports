@@ -105,7 +105,7 @@ Below you'll find the three example reports, set as python variables, that we wi
 **Guest Information**
 In this example, we've set the filters for the month of February, 2023, but of course you can set the filters to the date range you need.
 ```Python
-GUEST_REPORT ={
+GUEST_INFO_REPORT = {
     "property_ids": [
         YOUR_PROPERTY_ID,
     ],
@@ -113,132 +113,69 @@ GUEST_REPORT ={
     "filters": {
         "and": [
             {
-                "cdf": {
-                    "type": "default",
-                    "column": "checkin_date"
-                },
+                "cdf": {"type": "default", "column": "checkin_date"},
                 "value": "yesterday",
-                "operator": "greater_than_or_equal"
+                "operator": "greater_than_or_equal",
             }
         ]
     },
     "columns": [
-        {
-            "cdf": {
-                "column": "italian_guest_type"
-            }
-        },
-        {
-            "cdf": {
-                "column": "checkin_date"
-            }
-        },
-        {
-            "cdf": {
-                "column": "guest_surname"
-            }
-        },
-        {
-            "cdf": {
-                "column": "guest_first_name"
-            }
-        },
-        {
-            "cdf": {
-                "column": "guest_gender"
-            }
-        },
-        {
-            "cdf": {
-                "column": "guest_birth_date"
-            }
-        },
-        {
-            "cdf": {
-                "column": "italian_guest_birth_date_municipality_code"
-            }
-        },
-        {
-            "cdf": {
-                "column": "italian_guest_birth_date_province_code"
-            }
-        },
-        {
-            "cdf": {
-                "column": "italian_guest_birth_country_code"
-            }
-        },
-        {
-            "cdf": {
-                "column": "italian_guest_nationality_code"
-            }
-        },
-        {
-            "cdf": {
-                "column": "guest_city"
-            }
-        },
-        {
-            "cdf": {
-                "column": "guest_state"
-            }
-        },
-        {
-            "cdf": {
-                "column": "guest_residence_country"
-            }
-        },
-        {
-            "cdf": {
-                "column": "guest_address"
-            }
-        },
-        {
-            "cdf": {
-                "column": "guest_document_type"
-            }
-        },
-        {
-            "cdf": {
-                "column": "guest_document_number"
-            }
-        },
-        {
-            "cdf": {
-                "column": "italian_guest_document_issuing_province_code"
-            }
-        },
-        {
-            "cdf": {
-                "column": "italian_guest_document_issuing_municipality_code"
-            }
-        },
-        {
-            "cdf": {
-                "column": "guest_document_issuing_country_code"
-            }
-        },
-        {
-            "cdf": {
-                "column": "checkout_date"
-            }
-        }
+        {"cdf": {"column": "italian_guest_type"}},
+        {"cdf": {"column": "checkin_date"}},
+        {"cdf": {"column": "guest_surname"}},
+        {"cdf": {"column": "guest_first_name"}},
+        {"cdf": {"column": "guest_gender"}},
+        {"cdf": {"column": "guest_birth_date"}},
+        {"cdf": {"column": "italian_guest_birth_date_municipality_code"}},
+        {"cdf": {"column": "italian_guest_birth_date_province_code"}},
+        {"cdf": {"column": "italian_guest_birth_country_code"}},
+        {"cdf": {"column": "italian_guest_nationality_code"}},
+        {"cdf": {"column": "guest_city"}},
+        {"cdf": {"column": "guest_state"}},
+        {"cdf": {"column": "guest_residence_country"}},
+        {"cdf": {"column": "guest_address"}},
+        {"cdf": {"column": "guest_document_type"}},
+        {"cdf": {"column": "guest_document_number"}},
+        {"cdf": {"column": "italian_guest_document_issuing_province_code"}},
+        {"cdf": {"column": "italian_guest_document_issuing_municipality_code"}},
+        {"cdf": {"column": "guest_document_issuing_country_code"}},
+        {"cdf": {"column": "checkout_date"}},
     ],
-    "settings": {
-        "details": True,
-        "totals": False,
-        "transpose": False
-    }
+    "settings": {"details": True, "totals": False, "transpose": False},
 }
-
-
-
 ```
 
 **Occupied Rooms**
 In this report, you'll see that we've also included grouping by rows. This will sum the data into totals per day.
 ```Python
 OCCUPIED_ROOMS = {
+    "property_ids": [22425],
+    "dataset_id": 4,
+    "filters": {
+        "and": [
+            {
+                "value": "2023-02-01T00:00:00.000Z",
+                "cdf": {"type": "default", "column": "stay_date"},
+                "operator": "greater_than_or_equal",
+            },
+            {
+                "value": "2023-02-28T00:00:00.000Z",
+                "cdf": {"type": "default", "column": "stay_date"},
+                "operator": "less_than_or_equal",
+            },
+        ]
+    },
+    "columns": [{"cdf": {"column": "booking_qty_type_a"}, "metrics": ["sum"]}],
+    "settings": {"totals": False, "details": False},
+    "group_rows": [{"cdf": {"column": "stay_date"}, "modifier": "day"}],
+    "custom_cdfs": [],
+}
+```
+
+**Unoccupied Rooms and Beds**
+And finally in this report, we add one more filter to remove any of the rooms that are occupied before getting the total unoccupied rooms and beds per day.
+```Python
+UNOCCUPIED_ROOMS = {
     "property_ids": [
         YOUR_PROPERTY_ID,
     ],
@@ -247,115 +184,28 @@ OCCUPIED_ROOMS = {
         "and": [
             {
                 "value": "2023-02-01T00:00:00.000Z",
-                "cdf": {
-                    "type": "default",
-                    "column": "stay_date"
-                },
-                "operator": "greater_than_or_equal"
+                "cdf": {"type": "default", "column": "stay_date"},
+                "operator": "greater_than_or_equal",
             },
             {
                 "value": "2023-02-28T00:00:00.000Z",
-                "cdf": {
-                    "type": "default",
-                    "column": "stay_date"
-                },
-                "operator": "less_than_or_equal"
-            }
-        ]
-    },
-    "columns": [
-        {
-            "cdf": {
-                "column": "booking_qty_type_a"
-            },
-            "metrics": [
-                "sum"
-            ]
-        }
-    ],
-    "settings": {
-        "totals": False,
-        "details": False
-    },
-    "group_rows": [
-        {
-            "cdf": {
-                "column": "stay_date"
-            },
-            "modifier": "day"
-        }
-    ],
-    "custom_cdfs": []
-}
-```
-
-**Unoccupied Rooms and Beds**
-And finally in this report, we add one more filter to remove any of the rooms that are occupied before getting the total unoccupied rooms and beds per day.
-```Python
-UNOCCUPIED_ROOMS_AND_BEDS = {
-    "property_ids": [
-       YOUR_PROPERTY_ID,
-    ],
-    "dataset_id": 4,
-    "filters": {
-        "and": [
-            {
-                "value": "2023-02-01T00:00:00.000Z",
-                "cdf": {
-                    "type": "default",
-                    "column": "stay_date"
-                },
-                "operator": "greater_than_or_equal"
-            },
-            {
-                "value": "2023-02-28T00:00:00.000Z",
-                "cdf": {
-                    "type": "default",
-                    "column": "stay_date"
-                },
-                "operator": "less_than_or_equal"
+                "cdf": {"type": "default", "column": "stay_date"},
+                "operator": "less_than_or_equal",
             },
             {
                 "value": "0",
-                "cdf": {
-                    "type": "default",
-                    "column": "booking_qty_type_a"
-                },
-                "operator": "equals"
-            }
+                "cdf": {"type": "default", "column": "booking_qty_type_a"},
+                "operator": "equals",
+            },
         ]
     },
     "columns": [
-        {
-            "cdf": {
-                "column": "room_available_type_a"
-            },
-            "metrics": [
-                "sum"
-            ]
-        },
-        {
-            "cdf": {
-                "column": "bed_based_capacity"
-            },
-            "metrics": [
-                "sum"
-            ]
-        }
+        {"cdf": {"column": "room_available_type_a"}, "metrics": ["sum"]},
+        {"cdf": {"column": "bed_based_capacity"}, "metrics": ["sum"]},
     ],
-    "settings": {
-        "totals": False,
-        "details": False
-    },
-    "group_rows": [
-        {
-            "cdf": {
-                "column": "stay_date"
-            },
-            "modifier": "day"
-        }
-    ],
-    "custom_cdfs": []
+    "settings": {"totals": False, "details": False},
+    "group_rows": [{"cdf": {"column": "stay_date"}, "modifier": "day"}],
+    "custom_cdfs": [],
 }
 ```
 
